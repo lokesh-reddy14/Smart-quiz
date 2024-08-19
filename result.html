@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .full-screen {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="full-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded shadow-lg w-full max-w-2xl text-center">
+            <h1 class="text-2xl font-bold mb-4">Quiz Result</h1>
+            <p id="marks" class="text-xl mb-4"></p>
+            <p id="time" class="text-xl mb-4"></p>
+            <p id="correct-answers" class="text-xl mb-4"></p>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                marks: params.get('marks'),
+                time: params.get('time'),
+                total: params.get('total'),
+                answers: JSON.parse(decodeURIComponent(params.get('answers')))
+            };
+        }
+
+        window.onload = function() {
+            const { marks, time, total, answers } = getQueryParams();
+            const marksElement = document.getElementById('marks');
+            const timeElement = document.getElementById('time');
+            const correctAnswersElement = document.getElementById('correct-answers');
+
+            marksElement.textContent = `You scored ${marks} out of ${total} marks.`;
+            timeElement.textContent = `Time taken: ${Math.floor(time / 60)} minutes ${time % 60} seconds.`;
+            correctAnswersElement.textContent = `Correct answers: ${answers.join(', ')}`;
+        }
+    </script>
+</body>
+</html>
